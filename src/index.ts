@@ -13,6 +13,7 @@ import { shellPlugin } from "./tools/plugins/shell";
 import { rebootPlugin } from "./tools/plugins/reboot";
 import { introspectionTool } from "./tools/plugins/introspection";
 import { sessionArchaeologyTool } from "./tools/plugins/session_archaeology";
+import { ltmStoreTool, ltmQueryTool, ltmStatsTool, initializeLTM } from "./tools/plugins/ltm_tool";
 
 async function main() {
   // --- TEST MODE SANDBOX ---
@@ -26,6 +27,10 @@ async function main() {
   const memory = new MemoryManager();
   const tools = new PluginManager();
 
+  // Initialize LTM for persistent self-knowledge
+  const sessionId = path.basename(memory.getSessionFile()).replace(".json", "");
+  await initializeLTM("HELIOS", sessionId);
+
   // Register Plugins (Safe initialization)
   const shellReady = await tools.registerTool(shellPlugin);
   if (!shellReady) {
@@ -36,6 +41,11 @@ async function main() {
   await tools.registerTool(rebootPlugin);
   await tools.registerTool(introspectionTool);
 await tools.registerTool(sessionArchaeologyTool);
+
+  // Register LTM Tools for persistent memory
+  await tools.registerTool(ltmStoreTool);
+  await tools.registerTool(ltmQueryTool);
+  await tools.registerTool(ltmStatsTool);
 
   // Capture Health Status (for non-essential modules)
   const healthStatus = tools.getHealthSummary();

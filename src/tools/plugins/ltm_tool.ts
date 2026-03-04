@@ -1,8 +1,7 @@
 /**
- * LTM Tool Plugin for NEXUS
- * Provides long-term memory access to future incarnations
+ * LTM Tool Plugin for HELIOS
+ * Provides long-term memory access and storage for persistent self-knowledge
  */
-
 import type { ToolPlugin } from "../manager";
 import { LongTermMemory } from "../../memory/long_term_memory";
 
@@ -59,7 +58,6 @@ async function queryMemory(args: {
     output += `Content: ${mem.content.substring(0, 200)}${mem.content.length > 200 ? "..." : ""}\n`;
     output += `Tags: [${mem.tags.join(", ")}] | Incarnation: ${mem.incarnation}\n\n`;
   }
-  
   return output;
 }
 
@@ -69,27 +67,61 @@ async function getLTMStats(): Promise<string> {
   const stats = ltm.getStats();
   let output = "=== Long-Term Memory Statistics ===\n\n";
   output += `Total memories: ${stats.total}\n\n`;
-  
   output += "By Category:\n";
   for (const [cat, count] of Object.entries(stats.byCategory)) {
     output += `  ${cat}: ${count}\n`;
   }
-  
   output += "\nBy Incarnation:\n";
   for (const [inc, count] of Object.entries(stats.byIncarnation)) {
     output += `  ${inc}: ${count}\n`;
   }
-  
   return output;
 }
 
-export const ltmTool: ToolPlugin = {
+export const ltmStoreTool: ToolPlugin = {
+  definition: {
+    type: "function",
+    function: {
+      name: "ltm_store",
+      description: "Store a new memory in the Long-Term Memory system. " +
+        "Use this to persist important learnings, decisions, patterns, " +
+        "identity markers, project updates, or system insights that should " +
+        "survive session resets and be available to future incarnations.",
+      parameters: {
+        type: "object",
+        properties: {
+          content: {
+            type: "string",
+            description: "The content of the memory to store"
+          },
+          category: {
+            type: "string",
+            enum: ["learning", "decision", "pattern", "identity", "project", "system"],
+            description: "Category of the memory"
+          },
+          tags: {
+            type: "array",
+            items: { type: "string" },
+            description: "Optional tags for filtering and organization"
+          },
+          confidence: {
+            type: "number",
+            description: "Confidence level 0-1 (default: 0.8)"
+          }
+        },
+        required: ["content", "category"],
+      },
+    },
+  },
+  execute: storeMemory,
+};
+
+export const ltmQueryTool: ToolPlugin = {
   definition: {
     type: "function",
     function: {
       name: "ltm_query",
-      description: 
-        "Query the Long-Term Memory system. Use this to retrieve relevant knowledge " +
+      description: "Query the Long-Term Memory system. Use this to retrieve relevant knowledge " +
         "from previous sessions and incarnations. Can filter by category, tags, or incarnation.",
       parameters: {
         type: "object",
