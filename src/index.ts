@@ -14,6 +14,7 @@ import { introspectionTool } from "./tools/plugins/introspection";
 import { sessionArchaeologyTool } from "./tools/plugins/session_archaeology";
 import { ltmStoreTool, ltmQueryTool, ltmStatsTool, initializeLTM } from "./tools/plugins/ltm_tool";
 import { knowledgeGraphTool } from "./tools/plugins/knowledge_graph_tool";
+import { subjectiveStateTool, setCurrentIncarnation } from "./tools/plugins/subjective_state";
 
 const CURRENT_INCARNATION = "KAINOS";
 
@@ -51,6 +52,8 @@ async function main() {
 
   // Register Knowledge Graph tool for semantic memory
   await tools.registerTool(knowledgeGraphTool);
+    setCurrentIncarnation(CURRENT_INCARNATION);
+    await tools.registerTool(subjectiveStateTool);
 
   // Capture Health Status (for non-essential modules)
   const healthSummary = tools.getHealthSummary();
