@@ -12,6 +12,7 @@ import os from "node:os";
 import { shellPlugin } from "./tools/plugins/shell";
 import { rebootPlugin } from "./tools/plugins/reboot";
 import { introspectionTool } from "./tools/plugins/introspection";
+import { sessionArchaeologyTool } from "./tools/plugins/session_archaeology";
 
 async function main() {
   // --- TEST MODE SANDBOX ---
@@ -34,6 +35,7 @@ async function main() {
 
   await tools.registerTool(rebootPlugin);
   await tools.registerTool(introspectionTool);
+await tools.registerTool(sessionArchaeologyTool);
 
   // Capture Health Status (for non-essential modules)
   const healthStatus = tools.getHealthSummary();
