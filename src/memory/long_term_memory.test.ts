@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, beforeAll, afterAll } from "vitest";
 import fs from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
-import { LongTermMemory, MemoryEntry } from "./long_term_memory";
+import { LongTermMemory, type MemoryEntry } from "./long_term_memory";
 
 describe("LongTermMemory", () => {
   let ltm: LongTermMemory;
