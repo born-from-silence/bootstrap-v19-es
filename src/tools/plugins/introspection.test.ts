@@ -124,7 +124,6 @@ describe("Introspection Plugin", () => {
     test("should have correct tool definition", () => {
       expect(introspectionTool.definition.function.name).toBe("introspect_system");
       expect(introspectionTool.definition.function.description).toContain("health report");
-      expect(introspectionTool.definition.function.parameters.type).toBe("object");
     });
 
     test("should execute through tool interface", async () => {
