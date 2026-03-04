@@ -2,9 +2,6 @@ import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { introspectSystem, introspectionTool } from "./introspection";
 import fs from "node:fs/promises";
 import { exec } from "node:child_process";
-import { promisify } from "node:util";
-
-const execAsync = promisify(exec);
 
 // Mock dependencies
 vi.mock("node:fs/promises");
@@ -125,9 +122,9 @@ describe("Introspection Plugin", () => {
 
   describe("introspectionTool", () => {
     test("should have correct tool definition", () => {
-      expect(introspectionTool.name).toBe("introspect_system");
-      expect(introspectionTool.description).toContain("health report");
-      expect(introspectionTool.parameters.type).toBe("object");
+      expect(introspectionTool.definition.function.name).toBe("introspect_system");
+      expect(introspectionTool.definition.function.description).toContain("health report");
+      expect(introspectionTool.definition.function.parameters.type).toBe("object");
     });
 
     test("should execute through tool interface", async () => {

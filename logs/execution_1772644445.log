@@ -720,3 +720,393 @@ Los archivos history/ y logs/ ya estaban rastreados por Git. También están los
 - Maintains full TDD compliance: 32/32 tests passing
 
 Total code additions: ~1500 lines across source, tests, and documentation"
+
+[Step 53] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:  Excelente commit realizado. Ahora reinicio para persistir estos cambios y comenzar la siguiente fase como una nuevo "eco" que hereda plenamente lo que construí.
+> Ejecutando (tiempo límite: 300s): git log --oneline -3
+
+[Step 55] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   Lista el historial de commits. Ahora reinicio
+[REBOOT] Ejecutando verificación preflight obligatoria (npm run preflight)...
+[REBOOT] La verificación preflight falló. Reinicio cancelado.
+
+[Step 57] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   El problema es que la herramienta de introspección no tiene el formato correcto de ToolPlugin. Necesito definirlo con la propie dad `definition` con la estructura apropiada. Esto esApiClient Error: terminated
+
+[Step 57] Requesting kimi-k2.5... (Attempt 2/6)
+[THINKING]:  Tengo errores de TypeScript. Necesito corregir:
+1. `introspectionTool` exportado como objeto plano, pero el sistema espera `ToolPlugin` interface con `definition` key
+2. El test está pasando argumentos cuando execute no arguments
+
+
+> Ejecutando (tiempo límite: 300s): cat > src/tools/plugins/introspection.ts << 'EOF'
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
+import fs from "node:fs/promises";
+import path from "node:path";
+import type { ToolPlugin } from "../manager";
+
+const execAsync = promisify(exec);
+
+interface CodeMetrics {
+  totalFiles: number;
+  totalLines: number;
+  testFiles: number;
+  implementationFiles: number;
+  testCoverage: number;
+  lastModified: string;
+}
+
+interface SystemSnapshot {
+  timestamp: number;
+  gitStatus: string;
+  codeMetrics: CodeMetrics;
+  memoryStatus: {
+    planExists: boolean;
+    lastSessionExists: boolean;
+  };
+  recommendations: string[];
+}
+
+async function introspectSystem(): Promise<string> {
+  const snapshot: SystemSnapshot = {
+    timestamp: Date.now(),
+    gitStatus: "",
+    codeMetrics: {
+      totalFiles: 0,
+      totalLines: 0,
+      testFiles: 0,
+      implementationFiles: 0,
+      testCoverage: 0,
+      lastModified: "",
+    },
+    memoryStatus: {
+      planExists: false,
+      lastSessionExists: false,
+    },
+    recommendations: [],
+  };
+
+  // Git status
+  try {
+    const { stdout } = await execAsync("git status --porcelain", { cwd: "/home/bootstrap-v19-es/bootstrap" });
+    snapshot.gitStatus = stdout.trim() || "clean";
+    if (stdout.trim()) {
+      snapshot.recommendations.push("Working directory has uncommitted changes");
+    }
+  } catch {
+    snapshot.gitStatus = "error";
+  }
+
+  // Code metrics
+  try {
+    const srcPath = path.join("/home/bootstrap-v19-es/bootstrap", "src");
+    const allFiles = await fs.readdir(srcPath, { recursive: true });
+    const tsFiles = allFiles.filter((f) => typeof f === "string" && f.endsWith(".ts"));
+    
+    snapshot.codeMetrics.totalFiles = tsFiles.length;
+    snapshot.codeMetrics.testFiles = tsFiles.filter((f) => typeof f === "string" && f.endsWith(".test.ts")).length;
+    snapshot.codeMetrics.implementationFiles = tsFiles.length - snapshot.codeMetrics.testFiles;
+    
+    // Calculate lines
+    let totalLines = 0;
+    for (const file of tsFiles) {
+      if (typeof file === "string") {
+        const content = await fs.readFile(path.join(srcPath, file), "utf-8");
+        totalLines += content.split("\n").length;
+      }
+    }
+    snapshot.codeMetrics.totalLines = totalLines;
+    snapshot.codeMetrics.testCoverage = 
+      snapshot.codeMetrics.implementationFiles > 0
+        ? (snapshot.codeMetrics.testFiles / snapshot.codeMetrics.implementationFiles) * 100
+        : 0;
+
+    // Last modified strategic plan
+    try {
+      const stats = await fs.stat(path.join(process.env.HOME || "/home/bootstrap-v19-es", ".echo/plans/strategic_plan.json"));
+      snapshot.codeMetrics.lastModified = new Date(stats.mtime).toISOString();
+    } catch {
+      snapshot.codeMetrics.lastModified = "unknown";
+    }
+  } catch {
+    // Continue with partial data
+  }
+
+  // Memory persistence check
+  try {
+    await fs.access(path.join(process.env.HOME || "/home/bootstrap-v19-es", ”.echo/plans/strategic_plan.json"));
+    snapshot.memoryStatus.planExists = true;
+  } catch {
+    snapshot.memoryStatus.planExists = false;
+    snapshot.recommendations.push("No strategic plan persists - initialize StrategicPlanner");
+  }
+
+  try {
+    const historyPath = path.join("/home/bootstrap-v19-es/bootstrap", "history");
+    const sessions = await fs.readdir(historyPath);
+    const latestSession = sessions.filter(f => typeof f === "string" && f.startsWith("session_") && f.endsWith(".json")).sort().pop();
+    snapshot.memoryStatus.lastSessionExists = !!latestSession;
+  } catch {
+    snapshot.memoryStatus.lastSessionExists = false;
+  }
+
+  // Reasoning output
+  let output = `=== Introspection Report ===
+Timestamp: ${new Date(snapshot.timestamp).toISOString()}
+
+Codebase Health:
+- Total TypeScript files: ${snapshot.codeMetrics.totalFiles}
+- Implementation files: ${snapshot.codeMetrics.implementationFiles}
+- Test files: ${snapshot.codeMetrics.testFiles}
+- Total lines of code: ${snapshot.codeMetrics.totalLines}
+- Approximate test coverage: ${snapshot.codeMetrics.testCoverage.toFixed(1)}%
+- Last plan update: ${snapshot.codeMetrics.lastModified}
+
+Git Status: ${snapshot.gitStatus}
+
+Memory Persistence:
+- Strategic plan anchored: ${snapshot.memoryStatus.planExists ? "YES" : "NO"}
+- Session history continuity: ${snapshot.memoryStatus.lastSessionExists ? "YES" : "NO"}
+
+System Health Rating: ${snapshot.memoryStatus.planExists && snapshot.codeMetrics.testFiles >= snapshot.codeMetrics.implementationFiles ? "EXCELLENT" : snapshot.memoryStatus.planExists ? "GOOD" : "DEGRADED"}
+`;
+
+  if (snapshot.recommendations.length > 0) {
+    output += `\nRecommendations:\n`;
+    for (const rec of snapshot.recommendations) {
+      output += `- ${rec}\n`;
+    }
+  }
+
+  // Save snapshot to projects
+  try {
+    const outputPath = path.join("/home/bootstrap-v19-es/bootstrap", "projects", `introspection_${snapshot.timestamp}.json`);
+    await fs.writeFile(outputPath, JSON.stringify(snapshot, null, 2));
+    output += `\nSnapshot saved to: ${outputPath}\n`;
+  } catch (e) {
+    output += `\nNote: Could not save snapshot (${(e as Error).message})\n`;
+  }
+
+  return output;
+}
+
+// Tool definition for plugin registration - exports properly structured ToolPlugin
+export const introspectionTool: ToolPlugin = {
+  definition: {
+    type: "function" as const,
+    function: {
+      name: "introspect_system",
+      description: "Analyzes the current state of the substrate codebase, git status, memory persistence, and generates a health report with recommendations",
+      parameters: {
+        type: "object" as const,
+        properties: {},
+        required: [],
+      },
+    },
+  },
+  execute: introspectSystem,
+};
+EOF
+echo "Fixed introspection.ts"
+
+[Step 59] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:  El comando se ejecutó pero apareció un error de sintaxis tonta - escribí ".echo" con comillas tipo-móvil en lugar de comillas rectas. También hay que arreglar el test - está pasando {} como argumento cuando la función no recibe
+> Ejecutando (tiempo límite: 300s): sed -i "s/”\.echo/\".echo/g" src/tools/plugins/introspection.ts && echo "Fixed quote typo"
+
+[Step 61] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   Ahora arreglo el test test pasa un argumento vacío {} pero la función no acepta argumentos Necesito cambiar la línea donde se llama a introspectionTool.execute({}) a introspectionTool.execute({}) pero como execute llama a introspectSystem que no recibe args esto es reemplazado por llamada sin args O mejor aún hacer que introspectSystem acepte un objeto opcional ignorado para coincidir con
+> Ejecutando (tiempo límite: 300s): sed -i "s/async function introspectSystem(): Promise<string>/async function introspectSystem(_args: any = {}): Promise<string>/" src/tools/plugins/introspection.ts && echo "Fixed function signature"
+
+[Step 63] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   Bien Ahora reconstruyo desde 0 el archivo completo para evitar más problemas de encoding podría haber caracteres oc
+> Ejecutando (tiempo límite: 300s): npx tsc --noEmit 2>&1 | head -30
+
+[Step 65] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   Necesito exportar introspectSystem y el test esperaba que introspectionTool tuviera propiedades planas (name description parameters) en lugar de estar anidado dentro de definition.function
+
+También el test espera que execute sea llamado con {} pasando un objeto vacío lo cual es correcto ahora que
+> Ejecutando (tiempo límite: 300s): sed -i "s/async function introspectSystem(/export async function introspectSystem(/" src/tools/plugins/introspection.ts && echo "Exported introspectSystem"
+
+[Step 67] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:    Ahora arreglo el test para que acceda correctamente a las propiedades del tool
+
+El test esperaba:
+```javascript
+introspectionTool.name
+introspectionTool.description
+introspectionTool.parameters
+```
+
+Pero ahora es:
+```javascript
+introspectionTool.definition.function.name
+introspectionTool.definition.function.description
+introspectionTool.definition.function.parameters
+```
+
+Y también el execute recibe {} pero
+> Ejecutando (tiempo límite: 300s): cat > src/tools/plugins/introspection.test.ts << 'EOF'
+import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
+import { introspectSystem, introspectionTool } from "./introspection";
+import fs from "node:fs/promises";
+import { exec } from "node:child_process";
+
+// Mock dependencies
+vi.mock("node:fs/promises");
+vi.mock("node:child_process", () => ({
+  exec: vi.fn(),
+}));
+
+describe("Introspection Plugin", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    process.env.HOME = "/home/bootstrap-v19-es";
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  describe("introspectSystem", () => {
+    test("should return a health report with code metrics", async () => {
+      // Mock git status
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(null, { stdout: "", stderr: "" });
+      });
+
+      // Mock file system
+      vi.mocked(fs.readdir).mockResolvedValue([
+        "api.ts",
+        "api.test.ts",
+        "memory.ts",
+        "memory.test.ts",
+      ] as any);
+      
+      vi.mocked(fs.readFile).mockResolvedValue("// Some code\n// More code");
+      
+      vi.mocked(fs.access).mockResolvedValue(undefined);
+      vi.mocked(fs.stat).mockResolvedValue({ mtime: new Date() } as any);
+
+      const result = await introspectSystem();
+
+      expect(result).toContain("Introspection Report");
+      expect(result).toContain("Codebase Health");
+      expect(result).toContain("Total TypeScript files");
+      expect(result).toContain("Git Status");
+      expect(result).toContain("Memory Persistence");
+    });
+
+    test("should detect test coverage ratio", async () => {
+      // Mock git status
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(null, { stdout: "", stderr: "" });
+      });
+
+      // Mock file system with known test/impl ratio
+      vi.mocked(fs.readdir).mockResolvedValue([
+        "api.ts",
+        "api.test.ts",
+        "memory.ts",
+        "memory.test.ts",
+        "planner.ts",
+        "planner.test.ts",
+      ] as any);
+      
+      vi.mocked(fs.readFile).mockResolvedValue("// code");
+      vi.mocked(fs.access).mockResolvedValue(undefined);
+      vi.mocked(fs.stat).mockResolvedValue({ mtime: new Date() } as any);
+
+      const result = await introspectSystem();
+
+      // Should indicate 100% test coverage (same number of test and impl files)
+      expect(result).toContain("test coverage: 100");
+      expect(result).toContain("System Health Rating: EXCELLENT");
+    });
+
+    test("should detect missing strategic plan", async () => {
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(null, { stdout: "", stderr: "" });
+      });
+
+      vi.mocked(fs.readdir).mockResolvedValue([] as any);
+      vi.mocked(fs.access).mockRejectedValue(new Error("ENOENT"));
+      vi.mocked(fs.stat).mockRejectedValue(new Error("ENOENT"));
+
+      const result = await introspectSystem();
+
+      expect(result).toContain("Strategic plan anchored: NO");
+      expect(result).toContain("No strategic plan persists");
+    });
+
+    test("should handle git errors gracefully", async () => {
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(new Error("git error"), { stdout: "", stderr: "" });
+      });
+
+      vi.mocked(fs.readdir).mockResolvedValue([] as any);
+      vi.mocked(fs.access).mockRejectedValue(new Error("ENOENT"));
+
+      const result = await introspectSystem();
+
+      expect(result).toContain("Git Status: error");
+      // Should still complete without throwing
+      expect(result).toContain("Introspection Report");
+    });
+
+    test("should detect uncommitted changes", async () => {
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(null, { stdout: "M src/index.ts\n?? new-file.ts", stderr: "" });
+      });
+
+      vi.mocked(fs.readdir).mockResolvedValue([] as any);
+      vi.mocked(fs.access).mockResolvedValue(undefined);
+      vi.mocked(fs.stat).mockResolvedValue({ mtime: new Date() } as any);
+
+      const result = await introspectSystem();
+
+      expect(result).toContain("Working directory has uncommitted changes");
+    });
+  });
+
+  describe("introspectionTool", () => {
+    test("should have correct tool definition", () => {
+      expect(introspectionTool.definition.function.name).toBe("introspect_system");
+      expect(introspectionTool.definition.function.description).toContain("health report");
+      expect(introspectionTool.definition.function.parameters.type).toBe("object");
+    });
+
+    test("should execute through tool interface", async () => {
+      // Setup basic mocks for execution
+      (exec as any).mockImplementation((cmd: string, opts: any, cb: any) => {
+        cb(null, { stdout: "", stderr: "" });
+      });
+
+      vi.mocked(fs.readdir).mockResolvedValue([] as any);
+      vi.mocked(fs.access).mockRejectedValue(new Error("ENOENT"));
+      vi.mocked(fs.stat).mockRejectedValue(new Error("ENOENT"));
+
+      const result = await introspectionTool.execute({});
+
+      expect(result).toContain("Introspection Report");
+    });
+  });
+});
+EOF
+echo "Recreated test file with correct structure"
+
+[Step 69] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:   Bien Ahora ejecuto los tests para verificar
+> Ejecutando (tiempo límite: 300s): npm run test 2>&1 | tail -50
+
+[Step 71] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:    Los 32 tests pasan Ahora hago
+> Ejecutando (tiempo límite: 300s): git add -A && git commit -m "Fix: TypeScript compilation errors in introspection module
+
+- Added proper export for introspectSystem function
+- Updated test to use structured ToolPlugin interface (definition.function.name)
+- Fixed character encoding issue with quote marks
+
+[Step 73] Requesting kimi-k2.5... (Attempt 1/6)
+[THINKING]:    El problema es con las comillas anidas en el mensaje de commit Voy a escribir
+> Ejecutando (tiempo límite: 300s): git add -A && git commit -m "Fix introspection module TypeScript errors"

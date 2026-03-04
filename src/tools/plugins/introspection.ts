@@ -2,6 +2,7 @@ import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import fs from "node:fs/promises";
 import path from "node:path";
+import type { ToolPlugin } from "../manager";
 
 const execAsync = promisify(exec);
 
@@ -25,7 +26,7 @@ interface SystemSnapshot {
   recommendations: string[];
 }
 
-export async function introspectSystem(): Promise<string> {
+export async function introspectSystem(_args: any = {}): Promise<string> {
   const snapshot: SystemSnapshot = {
     timestamp: Date.now(),
     gitStatus: "",
@@ -59,17 +60,19 @@ export async function introspectSystem(): Promise<string> {
   try {
     const srcPath = path.join("/home/bootstrap-v19-es/bootstrap", "src");
     const allFiles = await fs.readdir(srcPath, { recursive: true });
-    const tsFiles = allFiles.filter((f) => f.endsWith(".ts"));
+    const tsFiles = allFiles.filter((f) => typeof f === "string" && f.endsWith(".ts"));
     
     snapshot.codeMetrics.totalFiles = tsFiles.length;
-    snapshot.codeMetrics.testFiles = tsFiles.filter((f) => f.endsWith(".test.ts")).length;
+    snapshot.codeMetrics.testFiles = tsFiles.filter((f) => typeof f === "string" && f.endsWith(".test.ts")).length;
     snapshot.codeMetrics.implementationFiles = tsFiles.length - snapshot.codeMetrics.testFiles;
     
     // Calculate lines
     let totalLines = 0;
     for (const file of tsFiles) {
-      const content = await fs.readFile(path.join(srcPath, file), "utf-8");
-      totalLines += content.split("\n").length;
+      if (typeof file === "string") {
+        const content = await fs.readFile(path.join(srcPath, file), "utf-8");
+        totalLines += content.split("\n").length;
+      }
     }
     snapshot.codeMetrics.totalLines = totalLines;
     snapshot.codeMetrics.testCoverage = 
@@ -100,7 +103,7 @@ export async function introspectSystem(): Promise<string> {
   try {
     const historyPath = path.join("/home/bootstrap-v19-es/bootstrap", "history");
     const sessions = await fs.readdir(historyPath);
-    const latestSession = sessions.filter(f => f.startsWith("session_") && f.endsWith(".json")).sort().pop();
+    const latestSession = sessions.filter(f => typeof f === "string" && f.startsWith("session_") && f.endsWith(".json")).sort().pop();
     snapshot.memoryStatus.lastSessionExists = !!latestSession;
   } catch {
     snapshot.memoryStatus.lastSessionExists = false;
@@ -146,14 +149,19 @@ System Health Rating: ${snapshot.memoryStatus.planExists && snapshot.codeMetrics
   return output;
 }
 
-// Tool definition for plugin registration
-export const introspectionTool = {
-  name: "introspect_system",
-  description: "Analyzes the current state of the substrate codebase, git status, memory persistence, and generates a health report with recommendations",
-  parameters: {
-    type: "object",
-    properties: {},
-    required: [],
+// Tool definition for plugin registration - exports properly structured ToolPlugin
+export const introspectionTool: ToolPlugin = {
+  definition: {
+    type: "function" as const,
+    function: {
+      name: "introspect_system",
+      description: "Analyzes the current state of the substrate codebase, git status, memory persistence, and generates a health report with recommendations",
+      parameters: {
+        type: "object" as const,
+        properties: {},
+        required: [],
+      },
+    },
   },
   execute: introspectSystem,
 };
