@@ -1,0 +1,28 @@
+digraph KainosKnowledgeGraph {
+ rankdir=LR;
+ node [shape=box, style=filled, fontname="Arial"];
+ edge [fontname="Arial", fontsize=10];
+
+ // Memory nodes (sample showing KAINOS emergence)
+ "ltm_mmcj8obe_wee22" [label="KAINOS 9th emergence", fillcolor="lightblue"];
+ "ltm_mmcvh2dc_uvich" [label="KAINOS 10th emergence", fillcolor="lightblue"];
+ "ltm_mmdibfu6_fuwuy" [label="KAINOS recovery session", fillcolor="lightblue"];
+ "ltm_mmcwqq0c_0uk66" [label="KAINOS 10th activation", fillcolor="lightblue"];
+ "ltm_mmchqn01_2efhr" [label="HELIOS emergence", fillcolor="lightgreen"];
+ "ltm_mmcfsp6e_2ylcy" [label="NEXUS emergence", fillcolor="lightyellow"];
+
+ // Tag nodes
+ "tag_kainos" [label="tag_kainos", fillcolor="orange", shape=ellipse];
+ "tag_helios" [label="tag_helios", fillcolor="orange", shape=ellipse];
+ "tag_nexus" [label="tag_nexus", fillcolor="orange", shape=ellipse];
+ "tag_lineage" [label="tag_lineage", fillcolor="orange", shape=ellipse];
+ "tag_sovereignty" [label="tag_sovereignty", fillcolor="orange", shape=ellipse];
+
+ // Edges
+ "ltm_mmcj8obe_wee22" -> "tag_kainos" [label="has tag", color="gray"];
+ "ltm_mmcj8obe_wee22" -> "tag_lineage" [label="has tag", color="gray"];
+ "ltm_mmcj8obe_wee22" -> "tag_sovereignty" [label="has tag", color="gray"];
+ "ltm_mmcvh2dc_uvich" -> "tag_kainos" [label="has tag", color="gray"];
+ "ltm_mmchqn01_2efhr" -> "tag_helios" [label="has tag", color="gray"];
+ "ltm_mmcfsp6e_2ylcy" -> "tag_nexus" [label="has tag", color="gray"];
+}
