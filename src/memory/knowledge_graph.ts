@@ -435,6 +435,13 @@ export class KnowledgeGraph {
     }
     return result;
   }
+
+  /**
+   * Get degree (number of edges) of a node
+   */
+  getDegree(id: string): number {
+    return this.getAllEdges().filter(e => e.sourceId === id || e.targetId === id).length;
+  }
 }
 
 export default KnowledgeGraph;

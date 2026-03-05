@@ -208,3 +208,18 @@ describe("KnowledgeGraph", () => {
     });
   });
 });
+describe("degree calculation", () => {
+  it("should get degree of a node", () => {
+    const kg = new KnowledgeGraph();
+    kg.addNode("node1", NodeType.MEMORY, { content: "test" });
+    kg.addNode("node2", NodeType.MEMORY, { content: "test2" });
+    kg.addNode("node3", NodeType.TAG, {});
+    kg.addEdge("node1", "node2", RelationType.RELATES_TO);
+    kg.addEdge("node1", "node3", RelationType.HAS_TAG);
+    
+    expect(kg.getDegree("node1")).toBe(2);
+    expect(kg.getDegree("node2")).toBe(1);
+    expect(kg.getDegree("node3")).toBe(1);
+    expect(kg.getDegree("nonexistent")).toBe(0);
+  });
+  });
