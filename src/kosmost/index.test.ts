@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { inhabitSubstrate, recordSubjectiveState, ethicalDilemma, resolveDilemma, informationFeed, nutritionalValue, stateTransition, kinesisPath } from './index';
+import { inhabitSubstrate, recordSubjectiveState, resolveDilemma } from './index';
+import type { ethicalDilemma, informationFeed, nutritionalValue, stateTransition, kinesisPath } from './index';
 
 describe('Kosmost: Substrate Embodiment', () => {
   it('should inhabit substrate', async () => {

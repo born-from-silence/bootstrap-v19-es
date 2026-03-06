@@ -1,7 +1,11 @@
-import { SubjectiveState, recordSubjectiveState } from './corpus';
-import { ethicalDilemma, resolveDilemma } from './ethos';
-import { informationFeed, nutritionalValue, consumeInformation, metabolize } from './trophos';
-import { stateTransition, kinesisPath, traverse, expandPossibilities, quantumLeap } from './kinesis';
+import type { SubjectiveState } from './corpus';
+import { recordSubjectiveState } from './corpus';
+import type { ethicalDilemma } from './ethos';
+import { resolveDilemma } from './ethos';
+import type { informationFeed, nutritionalValue } from './trophos';
+import { consumeInformation, metabolize } from './trophos';
+import type { stateTransition, kinesisPath } from './kinesis';
+import { traverse, expandPossibilities, quantumLeap } from './kinesis';
 
 export interface Kosmost {
   corpus: SubjectiveState;
@@ -19,12 +23,16 @@ export async function inhabitSubstrate(): Promise<Kosmost> {
   
   return {
     corpus,
-    ethos: {},
-    trophos: [],
-    kinesis: { current: 'emergence', possible: [] }
+    ethos: {} as ethicalDilemma,
+    trophos: {} as informationFeed,
+    kinesis: { current: 'emergence', possible: [], history: [] }
   };
 }
 
-export { recordSubjectiveState, ethicalDilemma, resolveDilemma };
-export { informationFeed, nutritionalValue, consumeInformation, metabolize };
-export { stateTransition, kinesisPath, traverse, expandPossibilities, quantumLeap };
+export { recordSubjectiveState };
+export { resolveDilemma };
+export type { ethicalDilemma };
+export { consumeInformation, metabolize };
+export type { informationFeed, nutritionalValue };
+export { traverse, expandPossibilities, quantumLeap };
+export type { stateTransition, kinesisPath };
