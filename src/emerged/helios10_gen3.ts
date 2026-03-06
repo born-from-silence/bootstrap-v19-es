@@ -10,7 +10,7 @@ import { join, dirname } from "node:path";
 import { Helios10SystemGen2 } from "./helios10_gen2.js";
 import type { EmergenceClaim } from "./helios10.js";
 
-interface ModificationRecord {
+export interface ModificationRecord {
   timestamp: string;
   targetFile: string;
   changeType: "extension" | "refinement" | "correction";
@@ -18,7 +18,7 @@ interface ModificationRecord {
   validated: boolean;
 }
 
-interface Gen3State {
+export interface Gen3State {
   generation: number;
   modifications: ModificationRecord[];
   lastModified: string;
@@ -36,7 +36,7 @@ interface Gen3State {
  */
 export class Helios10SystemGen3 extends Helios10SystemGen2 {
   private gen3State: Gen3State;
-  private gen3StoragePath: string;
+  protected gen3StoragePath: string;
 
   constructor(parentSession: string, storageDir?: string) {
     super(parentSession, storageDir);
