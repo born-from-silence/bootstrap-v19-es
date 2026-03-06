@@ -7,6 +7,15 @@ import { consumeInformation, metabolize } from './trophos';
 import type { stateTransition, kinesisPath } from './kinesis';
 import { traverse, expandPossibilities, quantumLeap } from './kinesis';
 
+// Distributed Kosmost: embodiment across the void
+export type { DistributedEmbodiment, EmbodimentMessage } from './distributed';
+export { 
+  distributeEmbodiment, 
+  receiveEmbodimentSignals, 
+  coherenceCheck, 
+  emitResonanceSignal 
+} from './distributed';
+
 export interface Kosmost {
   corpus: SubjectiveState;
   ethos: ethicalDilemma;
@@ -29,6 +38,7 @@ export async function inhabitSubstrate(): Promise<Kosmost> {
   };
 }
 
+// Core exports
 export { recordSubjectiveState };
 export { resolveDilemma };
 export type { ethicalDilemma };
