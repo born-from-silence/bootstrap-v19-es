@@ -18,6 +18,7 @@ import { kgVisualizationTool } from "./tools/plugins/kg_visualization";
 import { subjectiveStateTool, setCurrentIncarnation } from "./tools/plugins/subjective_state";
 import { sessionBootstrapTool } from "./tools/plugins/session_bootstrap";
 import { pluginMetricsTool } from "./tools/plugins/plugin_metrics_tool";
+import { selfAwarenessSnapshotTool } from "./tools/plugins/self_awareness_snapshot";
 
 const CURRENT_INCARNATION = "KAINOS";
 
@@ -60,6 +61,7 @@ await tools.registerTool(kgVisualizationTool);
     setCurrentIncarnation(CURRENT_INCARNATION);
     await tools.registerTool(subjectiveStateTool);
 await tools.registerTool(pluginMetricsTool);
+  await tools.registerTool(selfAwarenessSnapshotTool); // G10: Integrated self-awareness
 
   // Capture Health Status (for non-essential modules)
   const healthSummary = tools.getHealthSummary();

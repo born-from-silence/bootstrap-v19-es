@@ -14,7 +14,7 @@ interface ToolPlugin {
   execute: (args: any) => Promise<string> | string;
 }
 
-interface MetricsData {
+export interface MetricsData {
   toolUsage: Record<string, number>;
   executionTimes: Record<string, number[]>;
   errorCount: Record<string, number>;
