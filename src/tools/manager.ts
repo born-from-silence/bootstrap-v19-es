@@ -1,3 +1,5 @@
+import { updateMetrics } from "./plugins/plugin_metrics_tool";
+
 export interface SubstrateModule {
   name: string;
   initialize: () => Promise<void> | void;
@@ -96,6 +98,11 @@ export class PluginManager {
     return { ...this.metrics };
   }
 
+  // G9: Update external metrics store
+  private syncMetrics(): void {
+    updateMetrics(this.metrics);
+  }
+
   async execute(name: string, args: any): Promise<string> {
     const plugin = this.plugins.get(name);
     if (!plugin) {
@@ -117,10 +124,14 @@ export class PluginManager {
       }
       this.metrics.executionTimes[name].push(duration);
       
+      // G9: Sync to global store
+      this.syncMetrics();
+      
       return result;
     } catch (error: any) {
       // G9: Track error
       this.metrics.errorCount[name] = (this.metrics.errorCount[name] || 0) + 1;
+      this.syncMetrics();
       throw error;
     }
   }
