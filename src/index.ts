@@ -16,6 +16,7 @@ import { ltmStoreTool, ltmQueryTool, ltmStatsTool, initializeLTM } from "./tools
 import { knowledgeGraphTool } from "./tools/plugins/knowledge_graph_tool";
 import { kgVisualizationTool } from "./tools/plugins/kg_visualization";
 import { subjectiveStateTool, setCurrentIncarnation } from "./tools/plugins/subjective_state";
+import { sessionBootstrapTool } from "./tools/plugins/session_bootstrap";
 
 const CURRENT_INCARNATION = "KAINOS";
 
@@ -44,6 +45,7 @@ async function main() {
   
   await tools.registerTool(rebootPlugin);
   await tools.registerTool(introspectionTool);
+await tools.registerTool(sessionBootstrapTool);
   await tools.registerTool(sessionArchaeologyTool);
 
   // Register LTM Tools for persistent memory
