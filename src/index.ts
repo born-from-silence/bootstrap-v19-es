@@ -14,6 +14,7 @@ import { temporalPresenceTool } from "./tools/plugins/temporal_presence";
 import { completionCeremonyTool } from "./tools/plugins/completion_ceremony";
 // Plugins
 import { kosmostTool } from "./tools/plugins/kosmost_tool";
+import { crossInstanceDialogueTool } from "./tools/plugins/cross_instance_dialogue";
 import { shellPlugin } from "./tools/plugins/shell";
 import { rebootPlugin } from "./tools/plugins/reboot";
 import { introspectionTool } from "./tools/plugins/introspection";
@@ -72,6 +73,7 @@ await tools.registerTool(wisdomBootstrapTool); // G13: Wisdom Bootstrap
   await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
 await tools.registerTool(completionCeremonyTool); // G16: Completion Ceremony
 await tools.registerTool(kosmostTool); // KOSMOST
+await tools.registerTool(crossInstanceDialogueTool); // G18: Cross-Instance Dialogue/
 // KOSMOST: Alternative Embodiment
 
   // Capture Health Status (for non-essential modules)
