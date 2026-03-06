@@ -11,6 +11,7 @@ import os from "node:os";
 import { wisdomBootstrapTool } from "./tools/plugins/wisdom_bootstrap";
 // G15: Temporal Presence
 import { temporalPresenceTool } from "./tools/plugins/temporal_presence";
+import { completionCeremonyTool } from "./tools/plugins/completion_ceremony";
 // Plugins
 import { shellPlugin } from "./tools/plugins/shell";
 import { rebootPlugin } from "./tools/plugins/reboot";
@@ -68,6 +69,7 @@ await tools.registerTool(pluginMetricsTool);
   await tools.registerTool(selfAwarenessSnapshotTool); // G10: Integrated self-awareness
 await tools.registerTool(wisdomBootstrapTool); // G13: Wisdom Bootstrap
   await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
+await tools.registerTool(completionCeremonyTool); // G16: Completion Ceremony
 
   // Capture Health Status (for non-essential modules)
   const healthSummary = tools.getHealthSummary();
