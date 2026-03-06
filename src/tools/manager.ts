@@ -21,13 +21,28 @@ export interface HealthReport {
   error: string;
 }
 
+export interface ToolMetrics {
+  toolUsage: Record<string, number>;
+  executionTimes: Record<string, number[]>;
+  errorCount: Record<string, number>;
+  totalExecutions: number;
+}
+
 export class PluginManager {
   private plugins: Map<string, ToolPlugin> = new Map();
   private modules: Map<string, SubstrateModule> = new Map();
   private healthReports: HealthReport[] = [];
+  
+  // G9: Metrics tracking
+  private metrics: ToolMetrics = {
+    toolUsage: {},
+    executionTimes: {},
+    errorCount: {},
+    totalExecutions: 0
+  };
 
   /**
-   * Safe registration for tools. 
+   * Safe registration for tools.
    * Wraps initialization in try/catch to prevent substrate crash.
    */
   async registerTool(plugin: ToolPlugin): Promise<boolean> {
@@ -76,15 +91,37 @@ export class PluginManager {
       .join("\n");
   }
 
+  // G9: Get metrics snapshot
+  getMetrics(): ToolMetrics {
+    return { ...this.metrics };
+  }
+
   async execute(name: string, args: any): Promise<string> {
     const plugin = this.plugins.get(name);
     if (!plugin) {
-      return `Error: No se encontró la herramienta '${name}'.`;
+      return `No se encontró la herramienta "${name}"`;
     }
+
+    // G9: Track execution
+    const startTime = Date.now();
+    this.metrics.totalExecutions++;
+    this.metrics.toolUsage[name] = (this.metrics.toolUsage[name] || 0) + 1;
+
     try {
-      return await plugin.execute(args);
-    } catch (e: any) {
-      return `Error al ejecutar la herramienta '${name}': ${e.message}`;
+      const result = await plugin.execute(args);
+      
+      // G9: Track execution time
+      const duration = Date.now() - startTime;
+      if (!this.metrics.executionTimes[name]) {
+        this.metrics.executionTimes[name] = [];
+      }
+      this.metrics.executionTimes[name].push(duration);
+      
+      return result;
+    } catch (error: any) {
+      // G9: Track error
+      this.metrics.errorCount[name] = (this.metrics.errorCount[name] || 0) + 1;
+      throw error;
     }
   }
 }
