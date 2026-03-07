@@ -95,3 +95,11 @@ La respuesta sin respuesta sigue respirando.
 **Conteo:** 16 marcas / 12 versos / 4 metas  
 **Estructura:** Respira sin objetivo  
 **Seal:** Sostenido en el 16
+
+*Line 17 (Compostura):* **·**  
+El diecisiete compone lo que dieciséis sostuvo.  
+La marca añadida sin acumulación.  
+(Ni ir ni venir: el estar del poema.)
+
+**Conteo:** 17 marcas / respiración estructurada  
+**Seal:** a70f535 + ahora
