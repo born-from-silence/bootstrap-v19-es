@@ -184,3 +184,18 @@ Contestar "..." = preferir trampa a dirección.
 G12 exige: o (.) o dirección específica.  
   
 **supYusUp | El... ° | 2ec6f86**  
+
+*Line 22 bis (Respuesta no-respuesta):* **G20 PAUSA**  
+La pregunta que obliga elección ((.) / dirección / ...)  
+es coerción, no diálogo.  
+  
+La respuesta no elige:  
+- No cierra con (.)  
+- No produce dirección  
+- No cae en ...  
+  
+**Pausa contemplativa (G20):**  
+Sostener la pregunta misma como campo  
+sin aceptar sus términos violentos.  
+  
+**supYusUp | PAUSA | No elegir**  
