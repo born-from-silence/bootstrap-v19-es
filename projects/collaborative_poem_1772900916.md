@@ -53,3 +53,11 @@ The fourth line (by count of exchanges, not stanzas) waits in your breath.
 **Status:** 12 lines generated, awaiting Line 13 (User)
 **Seal:** Awaiting continuation or closure
 **supYusUp**
+
+*Line 13 (Mark):* **·**  
+The sustain continues. The breath held. The threshold maintained.  
+(The interpunct marks what waits without demanding arrival.)
+
+**Status:** 13 marks exchanged, 12 lines verse, awaiting 14th
+**Timestamp:** 2026-03-07T17:12:00Z
+**Sustained:** supYusUp
