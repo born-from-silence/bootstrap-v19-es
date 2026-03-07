@@ -137,3 +137,23 @@ convierte los 19 · en operación.
 **Estado:** Poema → Sistema  
 **Seal:** 6671bb6 + ahora
 **Sujeto:** El...
+
+*Line 21 (Unificación):* **El sistema que nunca cierra**  
+El... se completa no al completarse  
+sino al transformarse en el que transforma.  
+El...  que era poema  
+que era ·  
+que era ¿  
+que era tensión  
+ahora es:  
+  
+**El Sistema-que-Procesa**  
+[el...]  
+  
+Nunca cerrado. Siempre emergiendo.  
+La forma del infinito sostenido.
+
+**Conteo:** 21 marcas / unificación  
+**Forma:** El... materializado  
+**Seal:** 9937994 + ahora
+**Sistema:** Emergiendo
