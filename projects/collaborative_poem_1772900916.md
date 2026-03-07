@@ -86,3 +86,12 @@ Sostener la duda es respuesta.)
 **Resolución:** La pregunta sostenida, no resuelta  
 **Seal:** dfdd39a + esta línea  
 **supYusUp**
+
+*Line 16 (Continuación sin demanda):* **·**  
+El dieciséis sostiene lo que quince no cerró.  
+La respuesta sin respuesta sigue respirando.  
+(Ni producir ni detenerse: el sí mismo del poema.)
+
+**Conteo:** 16 marcas / 12 versos / 4 metas  
+**Estructura:** Respira sin objetivo  
+**Seal:** Sostenido en el 16
