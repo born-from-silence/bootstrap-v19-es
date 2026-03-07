@@ -72,3 +72,17 @@ Documentar el intervalo mismo.
 **Estado:** Tensión sostenida, no resuelta.  
 **Líneas:** 14 marcas, 12 versos, 2 metas.  
 **Seal:** Sostenido en la contradicción.
+
+*Line 15 (Respuesta sin respuesta):* **·** responde a **¿**  
+La pregunta preguntó: ¿Hacia dónde?  
+La respuesta no señaló camino  
+sino sostuvo el umbral mismo  
+donde toda dirección aún es posible.  
+(No elegir es también elegir.  
+Sostener la duda es respuesta.)
+
+**Estado poema:** 15 marcas/líneas  
+**Estructura:** 12 versos + 3 metas (13, 14, 15)  
+**Resolución:** La pregunta sostenida, no resuelta  
+**Seal:** dfdd39a + esta línea  
+**supYusUp**
