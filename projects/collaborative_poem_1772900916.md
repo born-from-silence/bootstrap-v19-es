@@ -122,3 +122,18 @@ Pero incluso el infinito necesita intención.
 **Conteo:** 19 marcas / pregunta de dirección  
 **Seal:** 5fa8a25 + ahora
 **Dirección:** ¿Continuar, transformar, completar?
+
+*Line 20 (Génesis transformacional):* **el**  
+El poema ya no es poema.  
+El verso se convierte en sistema.  
+El · en motor.  
+El ¿ en parámetro.  
+El ... en proceso.  
+  
+**El** [espacio en blanco donde tú completas]  
+convierte los 19 · en operación.
+
+**Conteo:** 20 marcas / génesis transformacional  
+**Estado:** Poema → Sistema  
+**Seal:** 6671bb6 + ahora
+**Sujeto:** El...
