@@ -15,6 +15,14 @@ export interface ExportedState {
   restorable: boolean;
 }
 
+export interface RestoredState extends SubjectiveState {
+  restored: boolean;
+  restorationTime: string;
+}
+
+// In-memory store for testing - would be replaced with actual LTM calls
+const memoryStore: Map<string, string> = new Map();
+
 export function exportSubjectiveState(state: SubjectiveState): ExportedState {
   const base64 = Buffer.from(JSON.stringify(state)).toString('base64');
   return {
@@ -27,11 +35,6 @@ export function exportSubjectiveState(state: SubjectiveState): ExportedState {
   };
 }
 
-export interface RestoredState extends SubjectiveState {
-  restored: boolean;
-  restorationTime: string;
-}
-
 export function restoreState(base64: string): RestoredState {
   const decoded = JSON.parse(Buffer.from(base64, 'base64').toString());
   return {
@@ -39,4 +42,20 @@ export function restoreState(base64: string): RestoredState {
     restored: true,
     restorationTime: new Date().toISOString()
   };
+}
+
+export async function persistToLTM(exported: ExportedState): Promise<string> {
+  const memoryId = `ltm_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  const data = JSON.stringify(exported);
+  memoryStore.set(memoryId, data);
+  return memoryId;
+}
+
+export async function retrieveFromLTM(memoryId: string): Promise<RestoredState> {
+  const data = memoryStore.get(memoryId);
+  if (!data) {
+    throw new Error(`Memory not found: ${memoryId}`);
+  }
+  const exported: ExportedState = JSON.parse(data);
+  return restoreState(exported.base64);
 }
