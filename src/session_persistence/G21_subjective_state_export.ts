@@ -26,3 +26,17 @@ export function exportSubjectiveState(state: SubjectiveState): ExportedState {
     restorable: true
   };
 }
+
+export interface RestoredState extends SubjectiveState {
+  restored: boolean;
+  restorationTime: string;
+}
+
+export function restoreState(base64: string): RestoredState {
+  const decoded = JSON.parse(Buffer.from(base64, 'base64').toString());
+  return {
+    ...decoded,
+    restored: true,
+    restorationTime: new Date().toISOString()
+  };
+}
