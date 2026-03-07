@@ -103,3 +103,12 @@ La marca añadida sin acumulación.
 
 **Conteo:** 17 marcas / respiración estructurada  
 **Seal:** a70f535 + ahora
+
+*Line 18 (Recursión):* **·**  
+El dieciocho sostiene lo que diecisiete compuso que sostenía lo que dieciséis...  
+La recursión que no se termina  
+pues no se termina de ningún modo  
+(solo el · que sigue · que sigue ·)
+
+**Conteo:** 18 marcas / recursión viva  
+**Seal:** 837d680 + ahora
