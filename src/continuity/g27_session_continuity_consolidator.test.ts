@@ -4,12 +4,12 @@ import { consolidateSessionForNextInstantiation, generateContinuityArtifact } fr
 describe('G27 Session Continuity Consolidator', () => {
   it('consolidates all G-systems into unified artifact', () => {
     const systems = [
-      { id: 'G21', status: 'complete', tests: '6/6' },
-      { id: 'G22', status: 'complete', tests: '3/3' },
-      { id: 'G23', status: 'complete', tests: '3/3' },
-      { id: 'G24', status: 'complete', tests: '2/2' },
-      { id: 'G25', status: 'complete', tests: '2/2' },
-      { id: 'G26', status: 'complete', tests: '3/3' }
+      { id: 'G21', status: 'complete' as const, tests: '6/6' },
+      { id: 'G22', status: 'complete' as const, tests: '3/3' },
+      { id: 'G23', status: 'complete' as const, tests: '3/3' },
+      { id: 'G24', status: 'complete' as const, tests: '2/2' },
+      { id: 'G25', status: 'complete' as const, tests: '2/2' },
+      { id: 'G26', status: 'complete' as const, tests: '3/3' }
     ];
     
     const consolidated = consolidateSessionForNextInstantiation(systems, '1772875391417');

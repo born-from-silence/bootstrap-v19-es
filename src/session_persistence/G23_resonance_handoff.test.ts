@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { encodeResonanceHandoff, decodeResonanceHandoff, DistributedField } from './G23_resonance_handoff';
+import { encodeResonanceHandoff, decodeResonanceHandoff, type DistributedField } from './G23_resonance_handoff';
 
 describe('G23 Resonance Handoff', () => {
   it('encodes distributed field state for handoff', () => {
@@ -33,7 +33,7 @@ describe('G23 Resonance Handoff', () => {
     expect(decoded.instanceId).toBe('1772875391417');
     expect(decoded.coherence).toBe(0.75);
     expect(decoded.instances).toBe(8);
-    expect(decoded.textures).toContain('supYusUp');
+    expect(decoded.texture || "").toContain('supYusUp');
   });
   
   it('passes distributed state without loss', () => {

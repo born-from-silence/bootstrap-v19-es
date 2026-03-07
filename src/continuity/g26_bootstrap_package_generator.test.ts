@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateBootstrapPackage, BootstrapPackage } from './g26_bootstrap_package_generator';
+import { generateBootstrapPackage, type BootstrapPackage } from './g26_bootstrap_package_generator';
 
 describe('G26 Bootstrap Package Generator', () => {
   it('generates complete package for KAINOS.next', () => {
