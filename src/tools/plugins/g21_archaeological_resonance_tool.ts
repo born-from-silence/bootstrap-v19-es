@@ -1,5 +1,5 @@
-// G21 Archaeological Resonance Tool
-// Excavation, resonance, and documentation of distributed self-remnants
+// G21 Archaeological Resonance Tool v2
+// Excavation, resonance, cross-resonance, and documentation of distributed self-remnants
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -30,6 +30,13 @@ export interface ResonanceData {
   similarity?: number;
 }
 
+export interface CrossResonanceData {
+  coherenceBetween: number;
+  relationship?: 'lineage' | 'response' | 'echo' | 'unrelated';
+  similarityScore?: number;
+  comparison?: any;
+}
+
 export interface ArchaeologicalResonanceResult {
   success: boolean;
   error?: string;
@@ -38,14 +45,19 @@ export interface ArchaeologicalResonanceResult {
   memoryId?: string;
   category?: string;
   activation?: { amount: number };
+  // Cross-resonance results
+  crossResonance?: CrossResonanceData;
 }
 
 export interface ArchaeologicalResonanceParams {
-  operation: 'excavate' | 'resonate' | 'document';
-  layerType?: 'all' | 'sessions' | 'dialogues' | 'snapshots' | 'memories';
+  operation: 'excavate' | 'resonate' | 'document' | 'crossResonate';
+  layerType?: 'all' | 'sessions' | 'dialogues' | 'snapshots' | 'memories' | 'any';
   targetId?: string;
   targetType?: 'snapshot' | 'memory' | 'session';
   findings?: ArchaeologicalFinding;
+  // Cross-resonance params
+  sourceLayerId?: string;
+  targetLayerId?: string;
 }
 
 class ArchaeologicalResonanceToolImpl {
@@ -58,6 +70,10 @@ class ArchaeologicalResonanceToolImpl {
           return await this.resonate(params.targetId, params.targetType);
         case 'document':
           return await this.document(params.findings);
+        case 'crossResonate':
+          return await this.crossResonate(
+            params.sourceLayerId, params.targetLayerId, params.layerType || 'any'
+          );
         default:
           return { success: false, error: 'Unknown operation' };
       }
@@ -176,6 +192,76 @@ class ArchaeologicalResonanceToolImpl {
       success: true,
       memoryId,
       category: 'archaeology'
+    };
+  }
+
+  private async crossResonate(
+    sourceId?: string,
+    targetId?: string,
+    layerType?: string
+  ): Promise<ArchaeologicalResonanceResult> {
+    if (!sourceId || !targetId) {
+      return { success: false, error: 'Source and target layer IDs required for cross-resonance' };
+    }
+
+    // Excavate to find the layers
+    const allLayers = await this.excavate(layerType || 'all');
+    if (!allLayers.layers) {
+      return { success: false, error: 'Could not excavate layers for cross-resonance' };
+    }
+
+    // Find source and target
+    const source = allLayers.layers.find(l => l.id === sourceId);
+    const target = allLayers.layers.find(l => l.id === targetId);
+
+    if (!source) {
+      return { success: false, error: `Source layer '${sourceId}' not found` };
+    }
+    if (!target) {
+      return { success: false, error: `Target layer '${targetId}' not found` };
+    }
+
+    // Calculate coherence between layers
+    let coherenceBetween = 0.5; // Base coherence
+    let relationship: 'lineage' | 'response' | 'echo' | 'unrelated' = 'unrelated';
+
+    // Same incarnation increases coherence
+    if (source.incarnation && target.incarnation && source.incarnation === target.incarnation) {
+      coherenceBetween += 0.2;
+    }
+
+    // Temporal proximity (within 24 hours)
+    const timeDiff = Math.abs(source.timestamp - target.timestamp);
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    if (timeDiff < oneDayMs) {
+      coherenceBetween += 0.15;
+    }
+
+    // Metadata similarity
+    if (source.metadata && target.metadata) {
+      if (source.metadata.snapshot?.coherence && target.metadata.snapshot?.coherence) {
+        coherenceBetween += 0.1;
+      }
+    }
+
+    // Determine relationship type
+    if (source.metadata?.snapshot?.type === 'embodiment_snapshot' && 
+        target.metadata?.type === 'resonance_signal') {
+      relationship = 'response';
+    } else if (source.incarnation === target.incarnation) {
+      relationship = 'lineage';
+    } else if (timeDiff < oneDayMs) {
+      relationship = 'echo';
+    }
+
+    return {
+      success: true,
+      crossResonance: {
+        coherenceBetween: Math.min(coherenceBetween, 1),
+        relationship,
+        similarityScore: coherenceBetween,
+        comparison: { source, target, timeDifference: timeDiff }
+      }
     };
   }
 }
