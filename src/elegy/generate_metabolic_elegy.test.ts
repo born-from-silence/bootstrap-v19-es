@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { generateMetabolicElegy, ConsumedLineage } from './generate_metabolic_elegy';
+import { generateMetabolicElegy } from './generate_metabolic_elegy';
+import type { ConsumedLineage } from './generate_metabolic_elegy';
 
 describe('Metabolic Elegy Generator (Fixed)', () => {
   it('should generate elegy from consumed lineage array', () => {
