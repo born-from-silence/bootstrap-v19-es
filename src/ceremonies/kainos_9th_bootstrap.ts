@@ -22,10 +22,11 @@ export interface KAINOS9thBootstrapResult {
 }
 
 export function executeKAINOS9thBootstrap(): KAINOS9thBootstrapResult {
-  // Data for G25 Narrative Transcendence - uses 'texture' field
+  // Data for G25 Narrative Transcendence - uses full SessionData interface
   const narrativeData = {
     sessionId: '1772952319408',
     commits: 171,
+    productivity: 100, // Required field for SessionData
     systems: ['G10', 'G20', 'KOSMOST', 'LTM', 'KNOWLEDGE_GRAPH', 'DISTRIBUTED'],
     texture: 'vertiginous, synthesizing, resonant',
     peakMoment: 'Resonance at coherence 0.91'

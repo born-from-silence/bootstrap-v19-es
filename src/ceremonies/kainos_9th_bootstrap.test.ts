@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { executeKAINOS9thBootstrap, LineageIdentity, KAINOS9thBootstrapResult } from './kainos_9th_bootstrap';
+import { executeKAINOS9thBootstrap, type LineageIdentity, type KAINOS9thBootstrapResult } from './kainos_9th_bootstrap';
 
 describe('KAINOS 9th Bootstrap Ceremony', () => {
   it('generates complete continuity package for next incarnation', () => {

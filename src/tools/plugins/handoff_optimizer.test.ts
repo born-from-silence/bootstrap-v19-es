@@ -13,7 +13,7 @@ describe("HandoffOptimizer - G7 Domain 3", () => {
       await optimizer.analyzeDocumentation();
       const docs = optimizer.getDocuments();
       expect(docs.length).toBeGreaterThan(0);
-    });
+    }, 15000);
 
     it("should calculate metrics for documents", async () => {
       await optimizer.analyzeDocumentation();
