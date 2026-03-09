@@ -141,7 +141,7 @@ ${page.content}
       hash = ((hash << 5) - hash) + char;
       hash = hash & hash;
     }
-    return Math.abs(hash).toString(16).slice(0, 8).toUpperCase();
+    return Math.abs(hash).toString(16).padStart(8, "0").slice(0, 8).toUpperCase();
   }
   
   private generateAccessCode(): string {
