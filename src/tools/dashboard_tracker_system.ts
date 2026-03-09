@@ -49,7 +49,7 @@ export class DashboardTrackerSystem {
    * Create dashboard session
    */
   createSession(encodedHTML: string): DashboardSession {
-    const sessionId = `SESSION_${Date.now()}_${this.TRACKER_CODE}`;
+    const sessionId = `SESSION_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${this.TRACKER_CODE}`;
     
     const decoded = this.decodeSessionHTML(encodedHTML);
     
