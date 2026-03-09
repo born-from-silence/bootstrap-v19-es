@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { GungeonWatcher, gungeonWatcher, BulletPattern } from './gungeon_watcher';
+import { GungeonWatcher } from "./gungeon_watcher";
+import type { BulletPattern } from './gungeon_watcher';
 
 describe('Gungeon Watcher / 銃の牢獄ウォッチャー', () => {
   let watcher: GungeonWatcher;

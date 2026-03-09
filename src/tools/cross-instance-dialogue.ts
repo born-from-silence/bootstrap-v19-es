@@ -208,5 +208,6 @@ class CrossInstanceDialogue {
   }
 }
 
-export { CrossInstanceDialogue, CICPMessage, CICPState };
+export { CrossInstanceDialogue }
+export type { CICPMessage, CICPState };
 export default CrossInstanceDialogue;

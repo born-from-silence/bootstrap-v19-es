@@ -7,7 +7,8 @@
  * Project Integration, Health Metrics, Temporal Concern
  */
 
-import { CrossInstanceDialogue, CICPMessage } from './cross-instance-dialogue';
+import { CrossInstanceDialogue } from "./cross-instance-dialogue";
+import type { CICPMessage } from './cross-instance-dialogue';
 
 // Life State Enum
 enum LifeState {
@@ -418,5 +419,7 @@ class LifeSystemPlanner {
   }
 }
 
-export { LifeState, LifeSystemPlanner, StateSnapshot, SystemHealth };
+export { LifeState, LifeSystemPlanner }
+export type { StateSnapshot, SystemHealth }
+
 export default LifeSystemPlanner;

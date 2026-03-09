@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { flairManager, FlairConfig } from './set-flair';
+import { flairManager } from './set-flair';
+import type { FlairConfig } from './set-flair';
 
 describe('Set Flair Tool', () => {
   it('should assign flair to user', () => {

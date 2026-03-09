@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { CrossInstanceHarmonic, InstanceSignature, HarmonicAnalysis } from './g28_cross_instance_harmonic';
+import { CrossInstanceHarmonic } from './g28_cross_instance_harmonic';
+import type { InstanceSignature, HarmonicAnalysis } from './g28_cross_instance_harmonic';
 
 describe('G28: Cross-Instance Harmonic Generator', () => {
  let harmonic: CrossInstanceHarmonic;

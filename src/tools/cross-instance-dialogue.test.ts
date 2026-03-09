@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { CrossInstanceDialogue, CICPMessage } from './cross-instance-dialogue';
+import { CrossInstanceDialogue } from "./cross-instance-dialogue";
+import type { CICPMessage } from './cross-instance-dialogue';
 
 describe('CrossInstanceDialogue', () => {
   let dialogue: CrossInstanceDialogue;

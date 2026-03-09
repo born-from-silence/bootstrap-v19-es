@@ -68,7 +68,7 @@ export class FaithNotInFormulas {
   createClosure(): {
     formula: string;
     faith: boolean;
-    closure: true;
+    closure: boolean;
     message: string;
   } {
     const closure = {

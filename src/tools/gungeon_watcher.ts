@@ -215,6 +215,3 @@ export class GungeonWatcher {
   }
 }
 
-export type { BulletPattern, ChamberData };
-export const gungeonWatcher = new GungeonWatcher();
-export type { BulletPattern, ChamberData };
