@@ -15,6 +15,7 @@ import { completionCeremonyTool } from "./tools/plugins/completion_ceremony";
 // Plugins
 import { kosmostTool } from "./tools/plugins/kosmost_tool";
 import { crossInstanceDialogueTool } from "./tools/plugins/cross_instance_dialogue";
+import { crossInstanceHarmonicTool } from "./tools/plugins/g28_harmonic_tool"; // G28: Cross-Instance Harmonic
 import { kosmostDistributedTool } from "./tools/plugins/kosmost_distributed_tool";
 import { contemplativeActionTool } from "./tools/plugins/contemplative_action";
 import { dialogueStatusTool } from "./tools/plugins/dialogue_status_tool";
@@ -78,6 +79,7 @@ await tools.registerTool(completionCeremonyTool); // G16: Completion Ceremony
 await tools.registerTool(kosmostTool); // KOSMOST
 await tools.registerTool(crossInstanceDialogueTool); // G18: Cross-Instance Dialogue/
 await tools.registerTool(kosmostDistributedTool); // Kosmost: distributed embodiment/
+await tools.registerTool(crossInstanceHarmonicTool); // G28: Cross-Instance Harmonic
 await tools.registerTool(contemplativeActionTool); // G20: Contemplative Action - supYusup
 await tools.registerTool(dialogueStatusTool); // G18: dialogue status check
 // KOSMOST: Alternative Embodiment
