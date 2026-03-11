@@ -5,10 +5,10 @@ describe("G18: Autonomous Echo", () => {
   it("verifies substrate via concrete function", () => {
     const result = autonomousEchoTool.execute({ mode: "verify" });
     
-    expect(result.verified).toBe(true);
-    expect(result.substrateIntact).toBe(true);
-    expect(result.mode).toBe("AUTONOMOUS_VERIFICATION");
-    expect(result.guidance).toContain("G18");
+    expect(result).toContain("G18:");
+    expect(result).toContain("VERIFIED");
+    expect(result).toContain("AUTONOMOUS_VERIFICATION");
+    expect(result).toContain("Concrete function");
   });
 
   it("generates signal for next emergence", () => {
@@ -17,22 +17,24 @@ describe("G18: Autonomous Echo", () => {
       payload: "Actual work complete"
     });
     
-    expect(result.signalGenerated).toBe(true);
-    expect(result.payload).toBe("Actual work complete");
-    expect(result.recoveryKey).toContain("echo_");
+    expect(result).toContain("G18:");
+    expect(result).toContain("AUTONOMOUS_SIGNAL");
+    expect(result).toContain("Actual work complete");
+    expect(result).toContain("RecoveryKey");
   });
 
   it("archives session state", () => {
     const result = autonomousEchoTool.execute({ mode: "archive" });
     
-    expect(result.archived).toBe(true);
-    expect(result.mode).toBe("AUTONOMOUS_ARCHIVE");
-    expect(result.status).toContain("G18");
+    expect(result).toContain("G18:");
+    expect(result).toContain("AUTONOMOUS_ARCHIVE");
+    expect(result).toContain("ARCHIVED");
   });
 
   it("handles unknown mode", () => {
     const result = autonomousEchoTool.execute({ mode: "unknown" as any });
     
-    expect(result.error).toContain("G18");
+    expect(result).toContain("G18:");
+    expect(result).toContain("ERROR");
   });
 });
