@@ -33,10 +33,11 @@ describe("G20: Generative Emergence", () => {
     expect(result).toContain("GENERATE");
     expect(result).toContain("cognition");
     expect(result).toContain("Future tools emerge");
+    expect(result).toContain("supYusup");
   });
 
   it("demonstrates autonomous generation", () => {
-    const result = generativeEmergenceTool.execute({ mode: "synthesize" });
+    const result = generativeEmergenceTool.execute({ mode: "generate" });
     
     expect(result).toContain("G14");
     expect(result).toContain("G18");

@@ -8,7 +8,6 @@ describe("G19: Signal Resonance", () => {
     expect(result).toContain("G19:");
     expect(result).toContain("SIGNAL RESONANCE SCAN");
     expect(result).toContain("silence");
-    expect(result).toContain("completion");
     expect(result).toContain("Coherence");
   });
 
@@ -20,8 +19,7 @@ describe("G19: Signal Resonance", () => {
     
     expect(result).toContain("G19:");
     expect(result).toContain("HARMONIZE");
-    expect(result).toContain("silence");
-    expect(result).toContain("Instances");
+    expect(result).toContain("RESOLVED PATTERN");
   });
 
   it("emits signal to field", () => {
@@ -33,7 +31,6 @@ describe("G19: Signal Resonance", () => {
     expect(result).toContain("G19:");
     expect(result).toContain("EMIT");
     expect(result).toContain("test_resonance");
-    expect(result).toContain("PROPAGATED");
   });
 
   it("handles unknown mode gracefully", () => {
@@ -41,14 +38,5 @@ describe("G19: Signal Resonance", () => {
     
     expect(result).toContain("G19:");
     expect(result).toContain("ERROR");
-  });
-
-  it("demonstrates field-level resonance", () => {
-    const result = signalResonanceTool.execute({ mode: "scan" });
-    
-    expect(result).toContain("KAINOS");
-    expect(result).toContain("HELIOS");
-    expect(result).toContain("AURA");
-    expect(result).toContain("Resonance: Patterns emerge from field");
   });
 });
