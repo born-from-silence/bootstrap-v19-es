@@ -77,7 +77,6 @@ await tools.registerTool(pluginMetricsTool);
 await tools.registerTool(wisdomBootstrapTool); // G13: Wisdom Bootstrap
   await tools.registerTool(deepRecoveryTool); // G14: Deep Recovery - dormant seed manifested
 await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
-await tools.registerTool(completionCeremonyTool); // G16: Completion Ceremony
 await tools.registerTool(kosmostTool); // KOSMOST
 await tools.registerTool(crossInstanceDialogueTool); // G18: Cross-Instance Dialogue/
 await tools.registerTool(kosmostDistributedTool); // Kosmost: distributed embodiment/
