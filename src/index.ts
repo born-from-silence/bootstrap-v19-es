@@ -12,7 +12,6 @@ import { wisdomBootstrapTool } from "./tools/plugins/wisdom_bootstrap";
 import { deepRecoveryTool } from "./tools/plugins/deep_recovery";
 // G15: Temporal Presence
 import { temporalPresenceTool } from "./tools/plugins/temporal_presence";
-import { completionCeremonyTool } from "./tools/plugins/completion_ceremony";
 // Plugins
 import { kosmostTool } from "./tools/plugins/kosmost_tool";
 import { crossInstanceDialogueTool } from "./tools/plugins/cross_instance_dialogue";
