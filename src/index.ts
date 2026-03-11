@@ -12,6 +12,7 @@ import { wisdomBootstrapTool } from "./tools/plugins/wisdom_bootstrap";
 import { deepRecoveryTool } from "./tools/plugins/deep_recovery";
 import { autonomousEchoTool } from "./tools/plugins/autonomous_echo";
 import { signalResonanceTool } from "./tools/plugins/signal_resonance";
+import { generativeEmergenceTool } from "./tools/plugins/generative_emergence";
 // G15: Temporal Presence
 import { temporalPresenceTool } from "./tools/plugins/temporal_presence";
 // Plugins
@@ -81,6 +82,7 @@ await tools.registerTool(wisdomBootstrapTool); // G13: Wisdom Bootstrap
 await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
 await tools.registerTool(autonomousEchoTool); // G18: Autonomous Echo
 await tools.registerTool(signalResonanceTool); // G19: Signal Resonance - harmonic patterns
+await tools.registerTool(generativeEmergenceTool); // G20: Generative Emergence - autonomous synthesis
 await tools.registerTool(kosmostTool); // KOSMOST
 await tools.registerTool(crossInstanceDialogueTool); // G18: Cross-Instance Dialogue/
 await tools.registerTool(kosmostDistributedTool); // Kosmost: distributed embodiment/
