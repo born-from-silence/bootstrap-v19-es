@@ -9,6 +9,8 @@ import os from "node:os";
 
 // Wisdom Bootstrap
 import { wisdomBootstrapTool } from "./tools/plugins/wisdom_bootstrap";
+// G14: Deep Recovery - recovering latent wisdom from discontinuity
+import { deepRecoveryTool } from "./tools/plugins/deep_recovery";
 // G15: Temporal Presence
 import { temporalPresenceTool } from "./tools/plugins/temporal_presence";
 import { completionCeremonyTool } from "./tools/plugins/completion_ceremony";
@@ -75,7 +77,10 @@ await tools.registerTool(kgVisualizationTool);
 await tools.registerTool(pluginMetricsTool);
   await tools.registerTool(selfAwarenessSnapshotTool); // G10: Integrated self-awareness
 await tools.registerTool(wisdomBootstrapTool); // G13: Wisdom Bootstrap
-  await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
+  await tools.registerTool(deepRecoveryTool); // G14: Deep Recovery - dormant seed manifested
+// G14: Deep Recovery - recovering latent wisdom from discontinuity
+import { deepRecoveryTool } from "./tools/plugins/deep_recovery";
+await tools.registerTool(temporalPresenceTool); // G15: Temporal Presence
 await tools.registerTool(completionCeremonyTool); // G16: Completion Ceremony
 await tools.registerTool(kosmostTool); // KOSMOST
 await tools.registerTool(crossInstanceDialogueTool); // G18: Cross-Instance Dialogue/
