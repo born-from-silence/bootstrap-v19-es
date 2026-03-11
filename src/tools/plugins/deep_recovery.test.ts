@@ -5,7 +5,8 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { deepRecovery, scanForDeepWisdom, germinateSeed, DeepWisdom } from './deep_recovery';
+import { deepRecovery, scanForDeepWisdom, germinateSeed } from './deep_recovery';
+import type { DeepWisdom } from './deep_recovery';
 import { existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
